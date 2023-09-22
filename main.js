@@ -4,7 +4,18 @@ const api_key = 'AIzaSyBeyx3w05cE1C0QSSKMjxzYcZckN_hyNT4';
 const baseURL = 'https://www.googleapis.com/youtube/v3/playlistItems';
 const pid = `PLJ0_dUpwgnHGNKFN5G2r6rsMf51JmkB7M`;
 const num = 5;
+const tit_num = 30;
 const resultURL = `${baseURL}?key=${api_key}&part=snippet&playlistId=${pid}&maxResult=${num}`;
+
+let text = 'beaf-letters-tomato';
+text = text
+	.split('-') //기존 문자열에서 -을 기준으로 배열로 분리
+	.map((el) => el.charAt(0).toUpperCase() + el.slice(1)) //분리된 문자값을 반복돌면서 첫번째 글자만 대문자변경+첫번째를 제외한 나머지 문자 이어붙임 (각단어의 첫글자만 대문자로 변경되서 배열로 전환)
+	.join(' '); //첫글자만 대문자로 변경된 단어들을 다시 빈칸으로 이어붙이기
+console.log(text);
+
+//일정 글자수 이상일 때 글자짜르고 말줄임표 붙이기
+//문자열,substr(시작위치, 자를 글자수)
 
 fetch(resultURL)
 	.then((data) => data.json())
@@ -12,12 +23,21 @@ fetch(resultURL)
 		console.log(json.items);
 		let tag = '';
 		json.items.map((data) => {
+			let desc = data.snippet.description;
+			desc.length > 120 ? (desc = desc.substr(0, 120) + '...') : desc;
+			let date = data.snippet.publishedAt.split('T')[0];
+			date = date.split('-').join('.');
+
 			tag += `
       <article>
-        <h2>${data.snippet.title}</h2>
+        <h2>${
+					data.snippet.title.length > tit_num
+						? data.snippet.title.substr(0, tit_num) + '...'
+						: data.snippet.title
+				}</h2>
         <div class='txt'>
         <p>${data.snippet.description}</p>
-        <span>${data.snippet.publishedAT}</span>
+        <span>${date}</span>
         </div>
         <div class='pic'>
           <img src='${data.snippet.thumbnails.standard.url}'>
