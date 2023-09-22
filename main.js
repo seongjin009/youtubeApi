@@ -20,7 +20,7 @@ fetch(resultURL)
         <span>${data.snippet.publishedAT}</span>
         </div>
         <div class='pic'>
-          <img src='data.snippet.thumbnails.standard.url'>
+          <img src='${data.snippet.thumbnails.standard.url}'>
         </div>
       </article>
       `;
