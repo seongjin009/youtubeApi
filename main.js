@@ -47,3 +47,18 @@ fetch(resultURL)
 		});
 		frame.innerHTML = tag;
 	});
+
+//이벤트 위임 (event delegation)
+//동적으로 생성되는 요소에 이벤트 연결이 불가, 이벤트 연결 시점에는 해당 돔이 생성되지 않았기 때문
+//항상 있는 body요소에다가 이벤트를 위임을해서 추후 동적 dom이 생기면 이벤트를 전달받도록 처리
+
+window.addEventListener('click', (e) => {
+	//e.currentTarget : 이벤트가 연결되어 있는 선택자를 반환
+	//e.target : 실제 화면상에서 이벤트가 발생한 요소를 반환
+
+	if (e.target.nodeName === 'IMG') {
+		console.log(e.target);
+	}
+});
+
+const pic = document.querySelectorAll('.pic');
